@@ -29,7 +29,7 @@ Adafruit_SSD1306 display(OLED_RESET);
 DHT dht(DHTPIN, DHTTYPE);         //Set up Pin and type for DHT sensor
                                   // Set up BMP180 
 #include <Adafruit_BMP085.h>      //Adafruit BMP085 Library Version 1.0.0 or Adafruti BMP085 Unified Version 1.0.0? 
-Adafruit_BMP085 bmp;              // ?????         
+Adafruit_BMP085 bmp;              //          
 const int relayPin = D8;          //The digital Pin that is used to connect the Cooling Relay 
 const long interval = 2000;       // pause for two seconds
 int a = 0;                        //Global Variable for moving the DHT float f variable to a interger to enable the Relay engaged.
@@ -41,7 +41,7 @@ void setup() {
   pinMode(relayPin, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);     // Initialize the LED_BUILTIN pin as an output
   Serial.begin(115200);
-  // by default, we'll generate the high voltage from the 3.3v line internally! (neat!)
+  // by default, we'll generate the high voltage from the 3.3v line internally 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3C (for the 64x48)
   Serial.println ();
   Serial.println ();
@@ -53,8 +53,6 @@ void setup() {
   delay(2000);
   digitalWrite(LED_BUILTIN, LOW);   // Turn the LED on (Note that LOW is the voltage level           
   delay(500);                       // Wait for a second
-  //digitalWrite(LED_BUILTIN, HIGH);  // Turn the LED off by making the voltage HIGH
-  //delay(500);                       // Wait for two seconds (to demonstrate the active low LED)
   Serial.println ();
 }
 
@@ -62,13 +60,11 @@ void loop() {
   SplashDisplay ();
   Temp_read();
   Test_bmp();
-  
- }
+}
 
 void SplashDisplay ()
 {  
   // text display tests
-  
   Serial.println("Printing SplashDisplay to OLED ");
   Serial.println();
   Clear_OLED();
@@ -83,27 +79,25 @@ void SplashDisplay ()
   
  void Temp_read()  
   {
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+  // Reading temperature or humidity takes about 250 milliseconds
+  // Sensor readings may also be up to 2 seconds old 
   delay(2000);
- // digitalWrite(LED_BUILTIN, LOW);         //LED on during read
   float h = dht.readHumidity();             // Read Humidity 
   float t = dht.readTemperature();          // Read temperature as Celsius (the default)
   float f = dht.readTemperature(true);      // Read temperature as Fahrenheit (isFahrenheit = true)
   if (isnan(h) || isnan(t) || isnan(f)) 
   {   
     Serial.println("Failed to read from DHT sensor!");  // Display Error Message to Console
-    Clear_OLED();                            // Display Error Message to OLED
+    Clear_OLED();                                       // Display Error Message to OLED
     display.println("Failed DHT sensor!");
     display.display(); 
     delay(3000);
     return; 
    }
-  
   float hif = dht.computeHeatIndex(f, h);        // Compute heat index in Fahrenheit (the default)
   float hic = dht.computeHeatIndex(t, h, false); // Compute heat index in Celsius (isFahreheit = false)
   Clear_OLED();
-  display.print("Humidity: ");              //Dispaly Temp & Humi to OLED Dispaly
+  display.print("Humidity: ");                   //Dispaly Temp & Humi to OLED Dispaly
   display.print(h);
   display.println(" %\t");
   display.print("    Temp: ");
@@ -142,7 +136,6 @@ void SplashDisplay ()
   }
 
 void Test_bmp() {
-
   if (!bmp.begin()) {
     Serial.println("Could not find BMP180 or BMP085 sensor at 0x77"); // Display Error Message to Console
     Serial.println();
